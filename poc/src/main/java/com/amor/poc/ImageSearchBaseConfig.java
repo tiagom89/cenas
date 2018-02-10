@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.client.RestTemplate;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 @EnableConfigurationProperties
@@ -31,6 +33,12 @@ public class ImageSearchBaseConfig {
 		return dataSource;
 	}
 	
+	@Bean
+	@Scope(value="prototype")
+	public RestTemplate getRestTemplate(){
+		RestTemplate restTemplate = new RestTemplate();
+		return restTemplate;
+	}
 	
 	
 
