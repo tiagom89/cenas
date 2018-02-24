@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-
+import com.amor.poc.integration.GiphyImageServiceImpl;
 import com.amor.poc.integration.ImgurImageServiceImpl;
 
 import dto.Image;
@@ -34,10 +34,20 @@ public class BaseImageController {
 	@Autowired
 	private ImgurImageServiceImpl imgurImageService;
 	
+	@Autowired
+	private GiphyImageServiceImpl giphyImageService;
+	
+	
 	@GetMapping(value="/imageId")
 	public Image getImageById(@RequestParam String imageId){
 		//No request tem de vir qual é o serviço(imgur, giphy) a usar
 		this.imgurImageService.getImageById(imageId);
+		return null;
+	}
+	
+	@GetMapping(value="/gifId")
+	public Image getGifById(@RequestParam String gifId){
+		this.giphyImageService.getImageById(gifId);
 		return null;
 	}
 	
