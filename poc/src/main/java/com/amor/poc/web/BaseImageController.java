@@ -59,7 +59,7 @@ public class BaseImageController {
 		return null;
 	}
 	
-	@GetMapping(value="listBestOfToday")
+	@GetMapping(value="/listBestOfToday")
 	public List<Image> getListBestOfToday(/*@RequestParam String[] services*/){
 		
 		//Until we received the target services
