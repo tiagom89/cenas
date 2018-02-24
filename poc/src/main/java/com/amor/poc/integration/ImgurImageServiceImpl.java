@@ -14,9 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import dto.BaseImgurImageDTO;
 import dto.Image;
+import dto.ImgurImageAlbumDTO;
 import dto.ImgurImageDTO;
-import dto.ImgurImageDTO23;
+import dto.ImgurImageDTOAux;
 import enums.ImgurRequestServiceUtils;
 
 @Service
@@ -74,8 +76,8 @@ public class ImgurImageServiceImpl implements BaseImageService{
 			//DTO imgur convert to Image
 //			List<ImgurImageDTO> list = Arrays.asList(
 //					this.restTemplate.exchange("https://api.imgur.com/3/image/"+id+"",HttpMethod.GET,new HttpEntity<>(headers), ImgurImageDTO[].class).getBody());
-			ImgurImageDTO image = 
-					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_IMAGE+imageId,HttpMethod.GET,new HttpEntity<>(headers), ImgurImageDTO.class).getBody();
+			BaseImgurImageDTO image = 
+					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_IMAGE+imageId,HttpMethod.GET,new HttpEntity<>(headers), BaseImgurImageDTO.class).getBody();
 			
 //			convert
 			
@@ -89,8 +91,8 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	private List<Image> requestImgurAlbumImages(String albumId) throws Exception{
 		List<Image> imageList= null;
 		try{
-			List<ImgurImageDTO23> imgurImageDTOList = Arrays.asList(
-					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_ALBUM,HttpMethod.GET,new HttpEntity<>(this.getImgurHeader()), ImgurImageDTO23.class,albumId).getBody());
+			List<ImgurImageDTO> imgurImageDTOList = Arrays.asList(
+					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_ALBUM,HttpMethod.GET,new HttpEntity<>(this.getImgurHeader()), ImgurImageDTO[].class,albumId).getBody());
 			
 			System.out.println(imgurImageDTOList.toString());
 			if(imgurImageDTOList != null){
@@ -127,15 +129,15 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	@Override
 	public List<Image> getImageByBestOfTheDay() {
 		List<Image> imageList = null;
+		List<ImgurImageAlbumDTO> imgurImageDTOList = null;
 		try{
-			List<ImgurImageDTO> imgurImageDTOList = Arrays.asList(
-					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GALLERY_TOP, HttpMethod.GET,new HttpEntity<>(this.getImgurHeader()), ImgurImageDTO.class).getBody()
+			imgurImageDTOList = Arrays.asList(
+					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GALLERY_TOP, HttpMethod.GET,new HttpEntity<>(this.getImgurHeader()), ImgurImageAlbumDTO.class).getBody()
 					);
 					
 		}catch(Exception e){
 			
 		}
-		
 		
 		return null;
 	}
