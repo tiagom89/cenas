@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import dto.BaseGiphyImageDTO;
 import dto.GiphyImageDTO;
 import dto.Image;
 import dto.ImgurImageDTO;
@@ -67,8 +68,8 @@ public class GiphyImageServiceImpl implements BaseImageService{
 		try{
 //			http://api.giphy.com/v1/gifs/
 			HttpHeaders headers = this.getGiphyHeader();
-			GiphyImageDTO image = 
-					this.restTemplate.exchange(GiphyRequestServiceUtils.GIPHY_HOST+GiphyRequestServiceUtils.GIPHY_PATH_GET_GIF_BY_ID+gifId,HttpMethod.GET,new HttpEntity<>(headers),GiphyImageDTO.class).getBody();
+			BaseGiphyImageDTO image = 
+					this.restTemplate.exchange(GiphyRequestServiceUtils.GIPHY_HOST+GiphyRequestServiceUtils.GIPHY_PATH_GET_GIF_BY_ID+gifId,HttpMethod.GET,new HttpEntity<>(headers),BaseGiphyImageDTO.class).getBody();
 			
 //			convert
 			
