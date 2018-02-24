@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import dto.BaseImgurAlbumDTO;
 import dto.BaseImgurImageDTO;
 import dto.Image;
 import dto.ImgurImageAlbumDTO;
@@ -91,8 +92,8 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	private List<Image> requestImgurAlbumImages(String albumId) throws Exception{
 		List<Image> imageList= null;
 		try{
-			List<ImgurImageDTO> imgurImageDTOList = Arrays.asList(
-					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_ALBUM,HttpMethod.GET,new HttpEntity<>(this.getImgurHeader()), ImgurImageDTO[].class,albumId).getBody());
+			BaseImgurAlbumDTO imgurImageDTOList =
+					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_ALBUM,HttpMethod.GET,new HttpEntity<>(this.getImgurHeader()), BaseImgurAlbumDTO.class,albumId).getBody();
 			
 			System.out.println(imgurImageDTOList.toString());
 			if(imgurImageDTOList != null){
