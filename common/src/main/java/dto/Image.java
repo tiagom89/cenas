@@ -1,9 +1,25 @@
 package dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Image {
 
 private String name;
+private String link;
 	
+	public Image(@NotEmpty String name,@NotEmpty String link){
+		this.name = name;
+		this.link = link;
+	}
+
+	public String getLink() {
+		return link;
+	}
+	
+	public void setLink(String link) {
+		this.link = link;
+	}
+
 	public Image(){
 		super();
 	}
