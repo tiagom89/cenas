@@ -2,14 +2,19 @@ package com.amor.poc;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.web.client.RestTemplate;
 
+import cloud.ImageCloudStream;
+import converters.BaseImgurAlbumDTOToImageConverter;
 import converters.ImgurImageAlbumDTOToImageConverter;
 
 import java.util.HashSet;
@@ -18,6 +23,7 @@ import java.util.Set;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 @EnableConfigurationProperties
+@EnableBinding(ImageCloudStream.class)
 @Configuration
 public class ImageSearchBaseConfig {
 	
@@ -50,6 +56,7 @@ public class ImageSearchBaseConfig {
 	}
 	
 	@Bean
+	@Primary
 	public ConversionService getConversionService(){
 		
 		ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean();
@@ -64,6 +71,7 @@ public class ImageSearchBaseConfig {
 	private Set<Converter> getConverters(){
 		Set<Converter> converters = new HashSet<>();
 		converters.add( new ImgurImageAlbumDTOToImageConverter());
+		converters.add( new BaseImgurAlbumDTOToImageConverter());
 		
 		return converters;
 	}
