@@ -3,10 +3,13 @@ package com.amor.poc.integration;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,10 +20,11 @@ import org.springframework.web.client.RestTemplate;
 import dto.BaseImgurAlbumDTO;
 import dto.BaseImgurImageDTO;
 import dto.Image;
+import dto.ImageList;
 import dto.ImgurImageAlbumDTO;
 import dto.ImgurImageDTO;
-import dto.ImgurImageDTOAux;
 import enums.ImgurRequestServiceUtils;
+import repository.ImageRepository;
 
 @Service
 @EnableConfigurationProperties
@@ -33,7 +37,13 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	private String imgurAccessToken;
 	
 	@Autowired
+	private ImageRepository imageRepository;
+	
+	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private ConversionService conversionService;
 	
 	@Override
 	public Image getImageById(@NotEmpty String id) {
@@ -46,15 +56,26 @@ public class ImgurImageServiceImpl implements BaseImageService{
 		return null;
 	}
 	
+	/**
+	 * Obtem as imagens imgur e convertas em imagens do nosso sistema
+	 * @throws Exception 
+	 * 
+	 */
 	@Override
-	public List<Image> getAlbumById(@NotEmpty String albumId) {
+	public @NotNull List<Image> getAlbumById(@NotEmpty String albumId) throws Exception {
 
 		try {
-			return requestImgurAlbumImages(albumId);
+			BaseImgurAlbumDTO baseImgurAlbumList = requestImgurAlbumImages(albumId);
+			
+			ImageList imageList = conversionService.convert(baseImgurAlbumList,ImageList.class);
+			
+			return imageList.getImageList();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new Exception("ImgurImageServiceImpl - getAlbumById - Erro ao obter lista de imagens do album imgur");
 		}
-		return null;
+	
 	}
 	
 	@Override
@@ -89,23 +110,24 @@ public class ImgurImageServiceImpl implements BaseImageService{
 		
 	}
 	
-	private List<Image> requestImgurAlbumImages(String albumId) throws Exception{
-		List<Image> imageList= null;
+	/**
+	 * 
+	 * Metodo que retorna todas a imagens num dado Album imgur
+	 * 
+	 * 
+	 * @param albumId
+	 * @return
+	 * @throws Exception
+	 */
+	private @NotNull BaseImgurAlbumDTO requestImgurAlbumImages(String albumId) throws Exception{
+		BaseImgurAlbumDTO imgurAlbumList= null;
 		try{
-			BaseImgurAlbumDTO imgurImageDTOList =
+			imgurAlbumList =
 					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_ALBUM,HttpMethod.GET,new HttpEntity<>(this.getImgurHeader()), BaseImgurAlbumDTO.class,albumId).getBody();
-			
-			System.out.println(imgurImageDTOList.toString());
-			if(imgurImageDTOList != null){
-				
-			}
-			
 		}catch(Exception e){
-			throw new Exception("");
+			throw new Exception("ImgurImageService - requestImgurAlbumImages() - Erro ao executar RestTemplate para album",e);
 		}
-		
-//		convert
-		return imageList;
+		return imgurAlbumList;
 	}
 	
 	private List<Image> requestImgurAccountImages(String accountId) throws Exception{
