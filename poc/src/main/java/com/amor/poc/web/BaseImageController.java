@@ -49,8 +49,7 @@ public class BaseImageController {
 	
 	@GetMapping(value="/gifId")
 	public Image getGifById(@RequestParam String gifId){
-		this.giphyImageService.getImageById(gifId);
-		return null;
+		return this.giphyImageService.getImageById(gifId);
 	}
 	
 	

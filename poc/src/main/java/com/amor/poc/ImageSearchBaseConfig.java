@@ -72,6 +72,8 @@ public class ImageSearchBaseConfig {
 		Set<Converter> converters = new HashSet<>();
 		converters.add( new ImgurImageAlbumDTOToImageConverter());
 		converters.add( new BaseImgurAlbumDTOToImageConverter());
+		converters.add( new GiphyImageDTOToImageConverter());
+
 		
 		return converters;
 	}

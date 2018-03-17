@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,6 +30,9 @@ public class GiphyImageServiceImpl implements BaseImageService{
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private ConversionService conversionService;
 	
 	@Override
 	public Image getImageById(@NotEmpty String id) {
@@ -64,16 +68,15 @@ public class GiphyImageServiceImpl implements BaseImageService{
 	 * @throws Exception 
 	 ********************************************************************************/
 	private Image requestGiphyImageById(String gifId) throws Exception {
-		Image response = null;
 		try{
 //			http://api.giphy.com/v1/gifs/
 			HttpHeaders headers = this.getGiphyHeader();
-			BaseGiphyImageDTO image = 
+			BaseGiphyImageDTO giphyImage = 
 					this.restTemplate.exchange(GiphyRequestServiceUtils.GIPHY_HOST+GiphyRequestServiceUtils.GIPHY_PATH_GET_GIF_BY_ID+gifId,HttpMethod.GET,new HttpEntity<>(headers),BaseGiphyImageDTO.class).getBody();
-			
+
 //			convert
-			
-			return null;	
+			return this.conversionService.convert(giphyImage.getData(),Image.class);
+				
 		}catch(Exception e){
 			throw new Exception("");
 		}
