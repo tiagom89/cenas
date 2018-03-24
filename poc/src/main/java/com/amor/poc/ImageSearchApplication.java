@@ -9,7 +9,7 @@ import cloud.ImageCloudStream;
 import config.CommonsConfiguration;
 
 @SpringBootApplication
-@Import({ImageSearchBaseConfig.class,CommonsConfiguration.class})
+@Import(CommonsConfiguration.class)
 public class ImageSearchApplication {
 
 	public static void main(String[] args) {

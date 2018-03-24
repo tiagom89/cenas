@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cloud.ImageCloudStream;
 import converters.BaseImgurAlbumDTOToImageConverter;
+import converters.GiphyImageDTOToImageConverter;
 import converters.ImgurImageAlbumDTOToImageConverter;
 
 import java.util.HashSet;
