@@ -24,6 +24,7 @@ import dto.ImageList;
 import dto.ImgurImageAlbumDTO;
 import dto.ImgurImageDTO;
 import enums.ImgurRequestServiceUtils;
+import enums.ServiceProviders;
 import repository.ImageRepository;
 
 @Service
@@ -68,6 +69,8 @@ public class ImgurImageServiceImpl implements BaseImageService{
 			BaseImgurAlbumDTO baseImgurAlbumList = requestImgurAlbumImages(albumId);
 			
 			ImageList imageList = conversionService.convert(baseImgurAlbumList,ImageList.class);
+			
+			imageList.getImageList().stream().forEach( image -> image.setService(ServiceProviders.IMGUR.toString()));
 			
 			return imageList.getImageList();
 			
