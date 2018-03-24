@@ -20,6 +20,7 @@ import dto.Image;
 import dto.ImgurImageDTO;
 import enums.GiphyRequestServiceUtils;
 import enums.ImgurRequestServiceUtils;
+import enums.ServiceProviders;
 
 @Service
 @EnableConfigurationProperties
@@ -35,14 +36,20 @@ public class GiphyImageServiceImpl implements BaseImageService{
 	private ConversionService conversionService;
 	
 	@Override
-	public Image getImageById(@NotEmpty String id) {
+	public Image getImageById(@NotEmpty String id) throws Exception {
 		
 		try {
-			return requestGiphyImageById(id);
+			
+			Image image = requestGiphyImageById(id);
+			
+			image.setService(ServiceProviders.GIPHY.toString());
+			
+			return image;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new Exception("GiphyImageServiceImpl - getImageById - Erro ao obter imagem. pelo id pedido.");
 		}
-		return null;
+		
 	}
 
 	@Override

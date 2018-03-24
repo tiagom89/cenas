@@ -6,7 +6,7 @@ import dto.Image;
 
 public interface BaseImageService<T> {
 	
-	public Image getImageById(String imageId); 
+	public Image getImageById(String imageId) throws Exception; 
 
 	public List<T> getImageByBestOfTheDay();
 	

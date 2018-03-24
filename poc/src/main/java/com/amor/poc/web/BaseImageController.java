@@ -48,8 +48,23 @@ public class BaseImageController {
 	}
 	
 	@GetMapping(value="/gifId")
-	public Image getGifById(@RequestParam String gifId){
-		return this.giphyImageService.getImageById(gifId);
+	public Image getGifById(@RequestParam String gifId) throws Exception{
+		
+		Image image = null;
+		try {
+			image = this.giphyImageService.getImageById(gifId);
+			
+			//sending image to rabbit queue
+			sendMessage(image);
+			
+			return image;	
+		}catch (Exception e) {
+			//Log de erro
+			e.printStackTrace();
+		}
+		
+		return null;
+		
 	}
 	
 	
