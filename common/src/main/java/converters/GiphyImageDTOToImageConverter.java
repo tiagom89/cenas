@@ -3,13 +3,13 @@ package converters;
 import org.springframework.core.convert.converter.Converter;
 
 import dto.GiphyImageDTO;
-import dto.Image;
+import dto.ImageDTO;
 
-public class GiphyImageDTOToImageConverter implements Converter<GiphyImageDTO,Image>{
+public class GiphyImageDTOToImageConverter implements Converter<GiphyImageDTO,ImageDTO>{
 
 	@Override
-	public Image convert(GiphyImageDTO giphyImage) {
+	public ImageDTO convert(GiphyImageDTO giphyImage) {
 		
-		return new Image(giphyImage.getTitle(), giphyImage.getUrl());
+		return new ImageDTO(giphyImage.getTitle(), giphyImage.getUrl());
 	}	
 }

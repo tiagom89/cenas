@@ -2,18 +2,18 @@ package dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Image {
+public class ImageDTO {
 
 private String name;
 private String link;
 private String service;
 	
-	public Image(@NotEmpty String name,@NotEmpty String link){
+	public ImageDTO(@NotEmpty String name,@NotEmpty String link){
 		this.name = name;
 		this.link = link;
 	}
 	
-	public Image(@NotEmpty String name, @NotEmpty String link, @NotEmpty String service){
+	public ImageDTO(@NotEmpty String name, @NotEmpty String link, @NotEmpty String service){
 		this.name = name;
 		this.link = link;
 		this.service = service;
@@ -27,7 +27,7 @@ private String service;
 		this.link = link;
 	}
 
-	public Image(){
+	public ImageDTO(){
 		super();
 	}
 

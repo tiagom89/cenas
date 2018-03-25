@@ -4,13 +4,13 @@ import java.util.List;
 
 public class ImageList {
 	
-	private List<Image> imageList;
+	private List<ImageDTO> imageList;
 
-	public List<Image> getImageList() {
+	public List<ImageDTO> getImageList() {
 		return imageList;
 	}
 
-	public void setImageList(List<Image> imageList) {
+	public void setImageList(List<ImageDTO> imageList) {
 		this.imageList = imageList;
 	}
 

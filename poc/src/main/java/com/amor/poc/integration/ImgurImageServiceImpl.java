@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import dto.BaseImgurAlbumDTO;
 import dto.BaseImgurImageDTO;
-import dto.Image;
+import dto.ImageDTO;
 import dto.ImageList;
 import dto.ImgurImageAlbumDTO;
 import dto.ImgurImageDTO;
@@ -47,7 +47,7 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	private ConversionService conversionService;
 	
 	@Override
-	public Image getImageById(@NotEmpty String id) {
+	public ImageDTO getImageById(@NotEmpty String id) {
 
 		try {
 			return requestImgurImageById(id);
@@ -63,7 +63,7 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	 * 
 	 */
 	@Override
-	public @NotNull List<Image> getAlbumById(@NotEmpty String albumId) throws Exception {
+	public @NotNull List<ImageDTO> getAlbumById(@NotEmpty String albumId) throws Exception {
 
 		try {
 			BaseImgurAlbumDTO baseImgurAlbumList = requestImgurAlbumImages(albumId);
@@ -82,7 +82,7 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	}
 	
 	@Override
-	public List<Image> getAccountImagesById(String accountId) {
+	public List<ImageDTO> getAccountImagesById(String accountId) {
 		try {
 			return requestImgurAccountImages(accountId);
 		} catch (Exception e) {
@@ -91,9 +91,9 @@ public class ImgurImageServiceImpl implements BaseImageService{
 		return null;
 	}
 	
-	private Image requestImgurImageById(String imageId) throws Exception{
+	private ImageDTO requestImgurImageById(String imageId) throws Exception{
 
-		Image response = null;
+		ImageDTO response = null;
 		try{
 //			https://apidocs.imgur.com/
 			HttpHeaders headers = this.getImgurHeader();
@@ -133,8 +133,8 @@ public class ImgurImageServiceImpl implements BaseImageService{
 		return imgurAlbumList;
 	}
 	
-	private List<Image> requestImgurAccountImages(String accountId) throws Exception{
-		List<Image> imageList= null;
+	private List<ImageDTO> requestImgurAccountImages(String accountId) throws Exception{
+		List<ImageDTO> imageList= null;
 		try{
 			List<ImgurImageDTO> imgurImageDTOList = Arrays.asList(
 					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_IMAGE_ACCOUNT,HttpMethod.GET,new HttpEntity<>(this.getImgurBearerHeader()), ImgurImageDTO.class,accountId).getBody());
@@ -153,8 +153,8 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	}
 	
 	@Override
-	public List<Image> getImageByBestOfTheDay() {
-		List<Image> imageList = null;
+	public List<ImageDTO> getImageByBestOfTheDay() {
+		List<ImageDTO> imageList = null;
 		List<ImgurImageAlbumDTO> imgurImageDTOList = null;
 		try{
 			imgurImageDTOList = Arrays.asList(

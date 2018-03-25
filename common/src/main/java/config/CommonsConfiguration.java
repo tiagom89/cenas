@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EntityScan("entity")
-@EnableJpaRepositories("repository")
+@EnableJpaRepositories(basePackages="repository")
 public class CommonsConfiguration {
 
 }

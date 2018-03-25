@@ -13,8 +13,8 @@ public class Image {
 	
 	@Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
 	@Column(name="name")
 	private String name;
@@ -22,11 +22,14 @@ public class Image {
 	@Column(name="link")
 	private String link;
 
-	public int getId() {
+	@Column(name="service")
+	private String service;
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -44,5 +47,13 @@ public class Image {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
 	}
 }

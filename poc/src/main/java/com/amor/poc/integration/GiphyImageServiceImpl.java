@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import dto.BaseGiphyImageDTO;
 import dto.GiphyImageDTO;
-import dto.Image;
+import dto.ImageDTO;
 import dto.ImgurImageDTO;
 import enums.GiphyRequestServiceUtils;
 import enums.ImgurRequestServiceUtils;
@@ -36,11 +36,12 @@ public class GiphyImageServiceImpl implements BaseImageService{
 	private ConversionService conversionService;
 	
 	@Override
-	public Image getImageById(@NotEmpty String id) throws Exception {
+
+	public ImageDTO getImageById(@NotEmpty String id) throws Exception {
 		
 		try {
 			
-			Image image = requestGiphyImageById(id);
+			ImageDTO image = requestGiphyImageById(id);
 			
 			image.setService(ServiceProviders.GIPHY.toString());
 			
@@ -53,19 +54,19 @@ public class GiphyImageServiceImpl implements BaseImageService{
 	}
 
 	@Override
-	public List<Image> getAlbumById(String albumId) {
+	public List<ImageDTO> getAlbumById(String albumId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Image> getAccountImagesById(String accountId) {
+	public List<ImageDTO> getAccountImagesById(String accountId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Image> getImageByBestOfTheDay() {
+	public List<ImageDTO> getImageByBestOfTheDay() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -74,7 +75,7 @@ public class GiphyImageServiceImpl implements BaseImageService{
 	 * Functions
 	 * @throws Exception 
 	 ********************************************************************************/
-	private Image requestGiphyImageById(String gifId) throws Exception {
+	private ImageDTO requestGiphyImageById(String gifId) throws Exception {
 		try{
 //			http://api.giphy.com/v1/gifs/
 			HttpHeaders headers = this.getGiphyHeader();
@@ -82,7 +83,7 @@ public class GiphyImageServiceImpl implements BaseImageService{
 					this.restTemplate.exchange(GiphyRequestServiceUtils.GIPHY_HOST+GiphyRequestServiceUtils.GIPHY_PATH_GET_GIF_BY_ID+gifId,HttpMethod.GET,new HttpEntity<>(headers),BaseGiphyImageDTO.class).getBody();
 
 //			convert
-			return this.conversionService.convert(giphyImage.getData(),Image.class);
+			return this.conversionService.convert(giphyImage.getData(),ImageDTO.class);
 				
 		}catch(Exception e){
 			throw new Exception("");

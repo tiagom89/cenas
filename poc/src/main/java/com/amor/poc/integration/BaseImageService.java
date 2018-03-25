@@ -2,11 +2,11 @@ package com.amor.poc.integration;
 
 import java.util.List;
 
-import dto.Image;
+import dto.ImageDTO;
 
 public interface BaseImageService<T> {
 	
-	public Image getImageById(String imageId) throws Exception; 
+	public ImageDTO getImageById(String imageId) throws Exception; 
 
 	public List<T> getImageByBestOfTheDay();
 	

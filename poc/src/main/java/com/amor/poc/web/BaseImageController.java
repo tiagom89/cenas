@@ -18,7 +18,7 @@ import com.amor.poc.integration.GiphyImageServiceImpl;
 import com.amor.poc.integration.ImgurImageServiceImpl;
 
 import cloud.ImageCloudStream;
-import dto.Image;
+import dto.ImageDTO;
 import enums.ServiceProviders;
 
 /**
@@ -41,16 +41,16 @@ public class BaseImageController {
 	
 	
 	@GetMapping(value="/imageId")
-	public Image getImageById(@RequestParam String imageId){
+	public ImageDTO getImageById(@RequestParam String imageId){
 		//No request tem de vir qual é o serviço(imgur, giphy) a usar
 		this.imgurImageService.getImageById(imageId);
 		return null;
 	}
 	
 	@GetMapping(value="/gifId")
-	public Image getGifById(@RequestParam String gifId) throws Exception{
+	public ImageDTO getGifById(@RequestParam String gifId){
 		
-		Image image = null;
+		ImageDTO image = null;
 		try {
 			image = this.giphyImageService.getImageById(gifId);
 			
@@ -64,7 +64,6 @@ public class BaseImageController {
 		}
 		
 		return null;
-		
 	}
 	
 	
@@ -77,9 +76,9 @@ public class BaseImageController {
 	 * @return
 	 */
 	@GetMapping(value="/albumId")
-	public List<Image> getAlbumById(@RequestParam String albumId){
+	public List<ImageDTO> getAlbumById(@RequestParam String albumId){
 		//No request tem de vir qual é o serviço(imgur, giphy) a usar
-		List<Image> listaImagens = null;
+		List<ImageDTO> listaImagens = null;
 		try {
 			listaImagens = this.imgurImageService.getAlbumById(albumId);
 			listaImagens.stream().forEach( image->{
@@ -97,23 +96,23 @@ public class BaseImageController {
 	/**
 	 * Send image to exchange
 	 */
-	private void sendMessage(Image imgurImage){
+	private void sendMessage(ImageDTO imgurImage){
 		this.source.sendImgurImages().send(MessageBuilder.withPayload(imgurImage).build());
 	}
 	
 	@GetMapping(value="/accountId")
-	public List<Image> getAccountImagesById(@RequestParam String accountId){
+	public List<ImageDTO> getAccountImagesById(@RequestParam String accountId){
 		this.imgurImageService.getAccountImagesById(accountId);
 		return null;
 	}
 	
 	@GetMapping(value="/listImageByUserId")
-	public List<Image> getListImageByUserId(int userId){
+	public List<ImageDTO> getListImageByUserId(int userId){
 		return null;
 	}
 	
 	@GetMapping(value="/listBestOfToday")
-	public List<Image> getListBestOfToday(/*@RequestParam String[] services*/){
+	public List<ImageDTO> getListBestOfToday(/*@RequestParam String[] services*/){
 		
 		//Until we received the target services
 		String[] list = new String[2];
