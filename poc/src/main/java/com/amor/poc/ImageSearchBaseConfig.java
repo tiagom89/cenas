@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cloud.ImageCloudStream;
 import converters.BaseImgurAlbumDTOToImageConverter;
+import converters.BaseImgurImageDTOToImageDTOConverter;
 import converters.GiphyImageDTOToImageConverter;
 import converters.ImgurImageAlbumDTOToImageConverter;
 
@@ -74,6 +75,8 @@ public class ImageSearchBaseConfig {
 		converters.add( new ImgurImageAlbumDTOToImageConverter());
 		converters.add( new BaseImgurAlbumDTOToImageConverter());
 		converters.add( new GiphyImageDTOToImageConverter());
+		//Depois de adicionar isto ele deixou de funcar mas tbem desliguei a meio de um pedido
+		converters.add( new BaseImgurImageDTOToImageDTOConverter());
 
 		
 		return converters;

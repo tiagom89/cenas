@@ -47,14 +47,14 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	private ConversionService conversionService;
 	
 	@Override
-	public ImageDTO getImageById(@NotEmpty String id) {
+	public ImageDTO getImageById(@NotEmpty String id) throws Exception {
 
 		try {
 			return requestImgurImageById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new Exception("ImgurImageServiceImpl - getImageById - Erro ao obter imagem do imgur");
 		}
-		return null;
 	}
 	
 	/**
@@ -93,22 +93,15 @@ public class ImgurImageServiceImpl implements BaseImageService{
 	
 	private ImageDTO requestImgurImageById(String imageId) throws Exception{
 
-		ImageDTO response = null;
 		try{
-//			https://apidocs.imgur.com/
+
 			HttpHeaders headers = this.getImgurHeader();
-			//Lista devolve erro
-			//DTO imgur convert to Image
-//			List<ImgurImageDTO> list = Arrays.asList(
-//					this.restTemplate.exchange("https://api.imgur.com/3/image/"+id+"",HttpMethod.GET,new HttpEntity<>(headers), ImgurImageDTO[].class).getBody());
 			BaseImgurImageDTO image = 
 					this.restTemplate.exchange(ImgurRequestServiceUtils.IMGUR_REQUEST_URL_GET_IMAGE+imageId,HttpMethod.GET,new HttpEntity<>(headers), BaseImgurImageDTO.class).getBody();
 			
-//			convert
-			
-			return null;	
+			return this.conversionService.convert(image, ImageDTO.class);	
 		}catch(Exception e){
-			throw new Exception("");
+			throw new Exception("ImgurImageServiceImpl - requestImgurImageById() - Error");
 		}
 		
 	}

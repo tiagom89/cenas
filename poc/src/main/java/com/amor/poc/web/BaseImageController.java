@@ -39,12 +39,35 @@ public class BaseImageController {
 	@Autowired
 	private ImageCloudStream source;
 	
-	
+	/**
+	 * 
+	 * Endpoint para receber uma imagem
+	 * 
+	 * @param imageId
+	 * @return
+	 */
 	@GetMapping(value="/imageId")
 	public ImageDTO getImageById(@RequestParam String imageId){
 		//No request tem de vir qual é o serviço(imgur, giphy) a usar
-		this.imgurImageService.getImageById(imageId);
+		ImageDTO image;
+		try {
+			image = this.imgurImageService.getImageById(imageId);
+			sendMessage(image);
+			return image;
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+	
+	@GetMapping(value="/gallery")
+	public List<ImageDTO> getGallery(){
+		
+		
+		
+		
 		return null;
+		
 	}
 	
 	@GetMapping(value="/gifId")
@@ -101,9 +124,16 @@ public class BaseImageController {
 	}
 	
 	@GetMapping(value="/accountId")
-	public List<ImageDTO> getAccountImagesById(@RequestParam String accountId){
-		this.imgurImageService.getAccountImagesById(accountId);
-		return null;
+	public ImageDTO getAccountImagesById(@RequestParam String accountId){
+		//No request tem de vir qual é o serviço(imgur, giphy) a usar
+		ImageDTO listaImagens = null;
+		try{
+			listaImagens = this.imgurImageService.getImageById(accountId);
+			
+		}catch(Exception e){
+			
+		}
+		return listaImagens;
 	}
 	
 	@GetMapping(value="/listImageByUserId")
